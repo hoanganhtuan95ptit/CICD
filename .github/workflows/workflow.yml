@@ -18,8 +18,11 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       
-      - name: Run Tests
+      - name: Run Unit Tests
         run: ./gradlew test
+        
+      - name: Run Android Tests
+        run: ./gradlew cAT
         
       - name: Run Project
         run: ./gradlew assemble
