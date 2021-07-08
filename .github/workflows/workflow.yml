@@ -4,7 +4,7 @@ on: pull_request
 
 jobs:
   build:
-  
+
     runs-on: ubuntu-latest
 
     steps:
@@ -14,15 +14,24 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-          
+
+      - name: install avd
+        run: sdkmanager "system-images;android-24;default;armeabi-v7a"
+
+      - name: Create avd
+        run: echo no | avdmanager create avd -n testEmulator -k "system-images;android-24;default;armeabi-v7a"
+
+      - name: Start emulator
+        run: emulator -avd testEmulator -no-audio -no-window
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
-      
+
       - name: Run Unit Tests
         run: ./gradlew test
-        
+
       - name: Run Android Tests
         run: ./gradlew cAT
-        
+
       - name: Run Project
         run: ./gradlew assemble
